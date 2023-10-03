@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useRouter } from 'next/router'
 import { useState } from "react";
 import { RiCloseCircleLine } from "react-icons/ri";
 import SingleProductShop from "../../components/ecommerce/SingleProductShop";
@@ -7,6 +8,9 @@ import Head from "next/head";
 import { useEffect } from "react";
 import AppURL from "../api/AppUrl";
 const Slug = ({ slug, data ,categorybannerdata }) => {
+  const router = useRouter()
+  let s =router.query;
+  console.log(slug);
   const [productbycategoryData] = useState(data);
   const [resProducts, setProducts] = useState(null);
   const [featured, setFeatured] = useState([]);
@@ -221,8 +225,9 @@ export default Slug;
 export const getServerSideProps = async (context) => {
   let slug = context.query.slug;
   try {
-    const res = await fetch(AppURL.bytesting + slug.charAt(0).toUpperCase() + slug.slice(1).split("-").join(" "));
     const categorybannerres = await fetch(AppURL.categorybanner + "earrings");
+    const res = await fetch(AppURL.bytesting + slug.charAt(0).toUpperCase() + slug.slice(1).split("-").join(" "));
+   
     const data = await res.json();
     const categorybannerdata = await categorybannerres.json();
     return {
